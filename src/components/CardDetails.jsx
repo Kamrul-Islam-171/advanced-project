@@ -1,0 +1,68 @@
+import { useState } from "react";
+import { Link, Outlet, useLoaderData } from "react-router-dom";
+import { MdBookmarkAdd } from "react-icons/md";
+import { bookMarksData } from "../utilities/localdata";
+
+const CardDetails = () => {
+    const [activeTab, setActiveTab] = useState(0);
+    const Card_details = useLoaderData();
+    const { cover_image, reading_time_minutes, tags, id, title, published_timestamp, description, comments_count, public_reactions_count, path, url, readable_publish_date } = Card_details;
+    // console.log(Card_details)
+
+    const handleBookmarks = blog => {
+        // console.log(blog);
+        bookMarksData(blog);
+    }
+
+    return (
+        <div>
+            <div className="max-w-5xl px-6 py-16 mx-auto space-y-12">
+                <article className="space-y-8">
+                    <div className="space-y-6">
+                        <h1 className="text-4xl font-bold md:tracking-tight md:text-5xl ">{title}</h1>
+                        <div className="flex flex-col items-start justify-between w-full md:flex-row md:items-center text-gray-400">
+                            <div className="flex items-center md:space-x-2">
+                                <p className="text-sm">{reading_time_minutes} min read {new Date(published_timestamp).toLocaleDateString()}</p>
+                            </div>
+                            <p className="flex-shrink-0 mt-3 text-sm md:mt-0">{comments_count} Comments {public_reactions_count} views</p>
+                        </div>
+                    </div>
+                    <div className="">
+                        <p>Insert the actual text content here...</p>
+                    </div>
+
+                    <div>
+                        {/* tabs */}
+                        <div className="flex items-center -mx-4 overflow-x-auto overflow-y-hidden sm:justify-start flex-nowrap ">
+                            <Link to={''} onClick={() => setActiveTab(0)} rel="noopener noreferrer" href="#" className={`flex items-center flex-shrink-0 px-5 py-3 space-x-2 ${activeTab === 0 ? 'border border-b-0' : 'border-b'} rounded-t-lg border-gray-400`}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                </svg>
+                                <span>Content</span>
+                            </Link>
+                            <Link to={`author`} onClick={() => setActiveTab(1)} rel="noopener noreferrer" href="#" className={`flex items-center flex-shrink-0 px-5 py-3 space-x-2 ${activeTab === 1 ? 'border border-b-0' : ' border-b'} rounded-t-lg border-gray-400`}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                                </svg>
+                                <span>Author</span>
+                            </Link>
+
+                            <div onClick={()=> handleBookmarks(Card_details)} className="ml-5 bg-primary rounded-full p-3 hover:scale-105 overflow-hidden bg-opacity-20 hover:bg-opacity-30 cursor-pointer">
+                                {/* bookmark icon */}
+                                <MdBookmarkAdd size={20} className="text-secondary" />
+                            </div>
+
+                        </div>
+                        <div>
+                            <Outlet></Outlet>
+                        </div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    );
+};
+
+export default CardDetails;
