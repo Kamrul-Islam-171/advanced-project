@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Card from "../../components/Card/Card";
 import { DeleteBookmark, getLocalData } from "../../utilities/localdata";
+import Empty from "./Empty";
 
 
 
@@ -13,6 +14,10 @@ const Bookmarks = () => {
 
     const handleDlete = (id) => {
         DeleteBookmark(id);
+    }
+
+    if(blogs.length == 0) {
+        return <Empty msg = {'No bookmarks added!'} address={`blogs`}></Empty>
     }
     return (
         <div>
